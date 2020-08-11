@@ -177,7 +177,7 @@ class ShopController extends Controller
             if ($gadget) {
                 if ($gadget->stock > 0) {
                     $safe_carts[$idx]['id'] = $gadget->id;
-                    $safe_carts[$idx]['title'] = $gadget->title;
+                    $safe_carts[$idx]['merk'] = $gadget->merk;
                     $safe_carts[$idx]['cover'] = $gadget->cover;
                     $safe_carts[$idx]['price'] = $gadget->price;
                     $safe_carts[$idx]['weight'] = $gadget->weight;

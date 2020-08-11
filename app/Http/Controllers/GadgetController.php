@@ -11,8 +11,8 @@ use Illuminate\Support\Facades\DB;
 class GadgetController extends Controller
 {
     //
-    public function print($title) {
-        return $title;
+    public function print($merk) {
+        return $merk;
     }
 
     public function index()
