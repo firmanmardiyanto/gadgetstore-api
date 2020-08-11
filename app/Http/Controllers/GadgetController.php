@@ -47,7 +47,7 @@ class GadgetController extends Controller
 
     public function search($keyword) {
         $criteria = Gadget::select('*')
-        ->where('title', 'LIKE', "%".$keyword."%")
+        ->where('merk', 'LIKE', "%".$keyword."%")
         ->orderBy('views','DESC')
         ->get();
         return new GadgetResourceCollection($criteria);
