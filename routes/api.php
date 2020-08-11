@@ -38,6 +38,7 @@ Route::prefix('v1')->group(function() {
     Route::post('services', 'ShopController@services');
     Route::post('payment', 'ShopController@payment');
     Route::post('my-order', 'ShopController@myOrder');
+    Route::post('order-detail', 'ShopController@orderDetail');
     Route::post('edit-profile', 'AuthController@editProfile');
     });
 

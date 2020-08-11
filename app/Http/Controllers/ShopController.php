@@ -340,17 +340,17 @@ class ShopController extends Controller
                             ];
                         } else {
                             $message = 'There are' . $error . 'errors';
-                                  }
+                        }
                     }
                 }
             } catch (\Exception $e) {
                 $message = $e->getMessage();
                 DB::rollback();
-                                }
-    } else {
+            }
+        } else {
             $message = "User not found";
         }
-    
+
         return response()->json([
             'status' => $status,
             'message' => $message,
@@ -381,5 +381,34 @@ class ShopController extends Controller
             'message' => $message,
             'data' => $data
         ], 200);
+    }
+
+    public function orderDetail(Request $request)
+    {
+        $user = Auth::user();
+        $status = "error";
+        $message = "";
+        $data = null;
+        $code = 200;
+        if ($user) {
+            $status = "success";
+            $data = DB::table('orders')
+                ->join('gadget_order', 'orders.id', '=', 'gadget_order.order_id')
+                ->join('gadgets', 'gadget_order.gadget_id', '=', 'gadgets.id')
+                ->select('gadgets.merk', 'gadgets.slug',
+                'gadgets.cover', 
+                'gadgets.price',
+                'gadget_order.quantity', 
+                'orders.total_price')
+                ->where('orders.invoice_number', '=', $request->invoice)
+                ->get();
+        } else {
+            $message = "User not found";
+        }
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'data' => $data
+        ], $code);
     }
 }
