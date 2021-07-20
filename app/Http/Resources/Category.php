@@ -16,7 +16,7 @@ class Category extends JsonResource
     {
         $parent = parent::toArray($request);
 
-        $data['gadgets'] = $this->gadgets()->paginate(6);
+        $data['hijabs'] = $this->hijabs()->paginate(6);
         $data = array_merge($parent, $data);
         return [
             'status' => 'success',

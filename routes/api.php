@@ -23,10 +23,10 @@ Route::prefix('v1')->group(function() {
     Route::post('register', 'AuthController@register');
     Route::get('categories','CategoryController@index');
     Route::get('categories/random/{count}','CategoryController@random');
-    Route::get('gadgets/top/{count}','GadgetController@top');
-    Route::get('gadgets/slug/{slug}', 'GadgetController@slug');
-    Route::get('gadgets/search/{keyword}', 'GadgetController@search');
-    Route::get('gadgets', 'GadgetController@index');
+    Route::get('hijabs/top/{count}','HijabController@top');
+    Route::get('hijabs/slug/{slug}', 'HijabController@slug');
+    Route::get('hijabs/search/{keyword}', 'HijabController@search');
+    Route::get('hijabs', 'HijabController@index');
     Route::get('categories/slug/{slug}', 'CategoryController@slug');
     Route::get('provinces', 'ShopController@provinces');
     Route::get('cities', 'ShopController@cities');
@@ -42,5 +42,5 @@ Route::prefix('v1')->group(function() {
     Route::post('edit-profile', 'AuthController@editProfile');
     });
 
-    Route::get('gadget/{id}', 'GadgetController@view')->where('id', '[0-9]+');
+    Route::get('hijab/{id}', 'HijabController@view')->where('id', '[0-9]+');
 });

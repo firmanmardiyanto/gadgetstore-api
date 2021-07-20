@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
         $users = [];
         $faker = Faker\Factory::create();
         for ($i = 0; $i < 5; $i++) {
-            $avatar_path = '/xampp/htdocs/gadgetstore-api/public/images/users';
+            $avatar_path = '/xampp/htdocs/hijabstore-api/public/images/users';
             $avatar_fullpath = $faker->image($avatar_path, 200, 250, 'people', true, true, 'people');
             $avatar = str_replace($avatar_path . '/', '', $avatar_fullpath);
             $users[$i] = [

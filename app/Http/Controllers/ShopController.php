@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Province;
-use App\Models\Gadget;
+use App\Models\Hijab;
 use App\Models\City;
 use Illuminate\Http\Request;
 use App\Http\Resources\Provinces as ProvinceResourceCollection;
 use App\Http\Resources\Cities as CityResourceCollection;
-use App\Models\GadgetOrder;
+use App\Models\HijabOrder;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 
@@ -173,21 +173,21 @@ class ShopController extends Controller
             $id = (int)$cart['id'];
             $quantity = (int)$cart['quantity'];
             $total['quantity_before'] += $quantity;
-            $gadget = Gadget::find($id);
-            if ($gadget) {
-                if ($gadget->stock > 0) {
-                    $safe_carts[$idx]['id'] = $gadget->id;
-                    $safe_carts[$idx]['merk'] = $gadget->merk;
-                    $safe_carts[$idx]['cover'] = $gadget->cover;
-                    $safe_carts[$idx]['price'] = $gadget->price;
-                    $safe_carts[$idx]['weight'] = $gadget->weight;
-                    if ($gadget->stock < $quantity) {
-                        $quantity = (int) $gadget->stock;
+            $hijab = Hijab::find($id);
+            if ($hijab) {
+                if ($hijab->stock > 0) {
+                    $safe_carts[$idx]['id'] = $hijab->id;
+                    $safe_carts[$idx]['merk'] = $hijab->merk;
+                    $safe_carts[$idx]['cover'] = $hijab->cover;
+                    $safe_carts[$idx]['price'] = $hijab->price;
+                    $safe_carts[$idx]['weight'] = $hijab->weight;
+                    if ($hijab->stock < $quantity) {
+                        $quantity = (int) $hijab->stock;
                     }
                     $safe_carts[$idx]['quantity'] = $quantity;
                     $total['quantity'] += $quantity;
-                    $total['price'] += $gadget->price * $quantity;
-                    $total['weight'] += $gadget->weight * $quantity;
+                    $total['price'] += $hijab->price * $quantity;
+                    $total['weight'] += $hijab->weight * $quantity;
                     $idx++;
                 } else {
                     continue;
@@ -266,20 +266,20 @@ class ShopController extends Controller
                     foreach ($carts as $cart) {
                         $id = (int)$cart['id'];
                         $quantity = (int)$cart['quantity'];
-                        $gadget = Gadget::find($id);
-                        if ($gadget) {
-                            if ($gadget->stock >= $quantity) {
-                                $total_price += $gadget->price * $quantity;
-                                $total_weight += $gadget->weight * $quantity;
-                                // create gadget order
-                                $gadget_order = new gadgetOrder;
-                                $gadget_order->gadget_id = $gadget->id;
-                                $gadget_order->order_id = $order->id;
-                                $gadget_order->quantity = $quantity;
-                                if ($gadget_order->save()) {
+                        $hijab = Hijab::find($id);
+                        if ($hijab) {
+                            if ($hijab->stock >= $quantity) {
+                                $total_price += $hijab->price * $quantity;
+                                $total_weight += $hijab->weight * $quantity;
+                                // create hijab order
+                                $hijab_order = new hijabOrder;
+                                $hijab_order->hijab_id = $hijab->id;
+                                $hijab_order->order_id = $order->id;
+                                $hijab_order->quantity = $quantity;
+                                if ($hijab_order->save()) {
                                     // kurangi stock
-                                    $gadget->stock = $gadget->stock - $quantity;
-                                    $gadget->save();
+                                    $hijab->stock = $hijab->stock - $quantity;
+                                    $hijab->save();
                                 }
                             } else {
                                 $error++;
@@ -287,7 +287,7 @@ class ShopController extends Controller
                             }
                         } else {
                             $error++;
-                            throw new \Exception('Gadget is not found');
+                            throw new \Exception('Hijab is not found');
                         }
                     }
                     $weight = $total_weight * 1000;
@@ -393,12 +393,12 @@ class ShopController extends Controller
         if ($user) {
             $status = "success";
             $data = DB::table('orders')
-                ->join('gadget_order', 'orders.id', '=', 'gadget_order.order_id')
-                ->join('gadgets', 'gadget_order.gadget_id', '=', 'gadgets.id')
-                ->select('gadgets.merk', 'gadgets.slug',
-                'gadgets.cover', 
-                'gadgets.price',
-                'gadget_order.quantity', 
+                ->join('hijab_order', 'orders.id', '=', 'hijab_order.order_id')
+                ->join('hijabs', 'hijab_order.hijab_id', '=', 'hijabs.id')
+                ->select('hijabs.merk', 'hijabs.slug',
+                'hijabs.cover',
+                'hijabs.price',
+                'hijab_order.quantity',
                 'orders.total_price')
                 ->where('orders.invoice_number', '=', $request->invoice)
                 ->get();

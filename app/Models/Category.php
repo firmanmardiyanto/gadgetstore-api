@@ -10,7 +10,7 @@ class Category extends Model
         'name', 'slug', 'image', 'status'
     ];
 
-    public function gadgets(){
-        return $this->belongsToMany('App\Models\Gadget', 'gadget_category', 'category_id', 'gadget_id');
+    public function hijabs(){
+        return $this->belongsToMany('App\Models\Hijab', 'hijab_category', 'category_id', 'hijab_id');
     }
 }
